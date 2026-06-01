@@ -1515,6 +1515,135 @@
         translateY(0);
     }
 }
+.mobile-bottom-nav{
+    display:none;
+}
+
+@media(max-width:768px){
+
+    .mobile-bottom-nav{
+
+        display:flex;
+
+        position:fixed;
+
+        bottom:0;
+        left:0;
+
+        width:100%;
+
+        justify-content:space-around;
+
+        background:rgba(10,15,25,.95);
+
+        backdrop-filter:blur(20px);
+
+        padding:12px 0;
+
+        z-index:9999;
+
+        border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    .mobile-bottom-nav a{
+
+        color:white;
+
+        text-decoration:none;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        gap:4px;
+
+        font-size:12px;
+    }
+
+    .mobile-bottom-nav i{
+        font-size:20px;
+    }
+
+    body{
+        padding-bottom:85px;
+    }
+}
+/* =========================
+   MOBILE NAVBAR 2026 STYLE
+========================= */
+
+@media (max-width:768px){
+
+    .navbar{
+        padding:14px;
+        gap:15px;
+        border-radius:20px;
+    }
+
+    .logo{
+        width:48px;
+        height:48px;
+    }
+
+    .logo-text{
+        font-size:22px;
+    }
+
+    .search-form{
+        width:100%;
+        max-width:100%;
+    }
+
+    .nav-links{
+        width:100%;
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .nav-link,
+    .nav-orders-btn,
+    .logout-btn{
+
+        width:100%;
+
+        justify-content:center;
+
+        padding:14px 10px;
+
+        font-size:14px;
+    }
+
+    .dropdown{
+        width:100%;
+    }
+
+    .dropbtn{
+
+        width:100%;
+
+        padding:14px;
+
+        border-radius:16px;
+
+        background:rgba(255,255,255,0.06);
+
+        border:1px solid rgba(255,255,255,0.08);
+    }
+
+    .dropdown-content{
+
+        width:100%;
+
+        left:0;
+
+        top:55px;
+
+        z-index:1000;
+    }
+}
 
     </style>
 
@@ -1694,6 +1823,29 @@
         </p>
 
     </footer>
+    <div class="mobile-bottom-nav">
+
+    <a href="/">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+
+    <a href="{% url 'products:products' %}">
+        <i class="fa-solid fa-shop"></i>
+        <span>Products</span>
+    </a>
+
+    <a href="{% url 'cart:cart' %}">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Cart</span>
+    </a>
+
+    <a href="{% url 'orders:orders' %}">
+        <i class="fa-solid fa-box"></i>
+        <span>Orders</span>
+    </a>
+
+</div>
 
 </body>
 
