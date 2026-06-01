@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ category.name }} • Trenzyy</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            font-family:'Poppins',sans-serif;
+
+            background:#020617;
+
+            color:white;
+
+            padding:40px;
+        }
+
+        h1{
+
+            font-size:52px;
+
+            margin-bottom:40px;
+        }
+
+        .products{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(280px,1fr));
+
+            gap:30px;
+        }
+
+        .card{
+
+            background:#0f172a;
+
+            border-radius:25px;
+
+            overflow:hidden;
+
+            transition:0.3s;
+        }
+
+        .card:hover{
+
+            transform:translateY(-10px);
+        }
+
+        .card img{
+
+            width:100%;
+            height:280px;
+
+            object-fit:cover;
+
+            background:white;
+        }
+
+        .content{
+
+            padding:25px;
+        }
+
+        .content h2{
+
+            margin-bottom:15px;
+        }
+
+        .price{
+
+            color:#67e8f9;
+
+            font-size:28px;
+
+            font-weight:700;
+
+            margin:20px 0;
+        }
+
+        .btn{
+
+            display:inline-block;
+
+            padding:14px 22px;
+
+            border-radius:14px;
+
+            background:linear-gradient(
+                135deg,
+                #7c3aed,
+                #06b6d4
+            );
+
+            color:white;
+
+            text-decoration:none;
+
+            font-weight:700;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>{{ category.name }} Collection ✨</h1>
+
+    <div class="products">
+
+        {% for product in products %}
+
+        <div class="card">
+
+            <img src="/static/{{ product.image }}">
+
+            <div class="content">
+
+                <h2>{{ product.name }}</h2>
+
+                <p>
+                    {{ product.desc|truncatewords:15 }}
+                </p>
+
+                <div class="price">
+
+                    ₹{{ product.price }}
+
+                </div>
+
+                <a href="{% url 'products:product-details' product.id %}"
+                   class="btn">
+
+                    View Product
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>

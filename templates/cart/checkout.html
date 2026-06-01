@@ -1,0 +1,257 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Secure Checkout • Trenzyy</title>
+
+    <!-- RAZORPAY -->
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- GOOGLE FONT -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            font-family:'Poppins',sans-serif;
+
+            background:
+            linear-gradient(
+                135deg,
+                #020617,
+                #07111f,
+                #0f172a
+            );
+
+            height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            overflow:hidden;
+        }
+
+        .checkout-box{
+
+            width:450px;
+
+            background:
+            rgba(255,255,255,0.06);
+
+            border:
+            1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(20px);
+
+            padding:45px;
+
+            border-radius:30px;
+
+            text-align:center;
+
+            box-shadow:
+            0 20px 50px rgba(0,0,0,0.35);
+
+            color:white;
+        }
+
+        .logo{
+
+            width:90px;
+
+            margin-bottom:20px;
+        }
+
+        h1{
+
+            font-size:42px;
+
+            margin-bottom:15px;
+        }
+
+        p{
+
+            color:#cbd5e1;
+
+            line-height:1.8;
+
+            margin-bottom:30px;
+        }
+
+        .price{
+
+            font-size:52px;
+
+            font-weight:800;
+
+            color:#67e8f9;
+
+            margin-bottom:35px;
+        }
+
+        .pay-btn{
+
+            width:100%;
+
+            padding:18px;
+
+            border:none;
+
+            border-radius:18px;
+
+            background:
+            linear-gradient(
+                135deg,
+                #7c3aed,
+                #06b6d4
+            );
+
+            color:white;
+
+            font-size:18px;
+
+            font-weight:700;
+
+            cursor:pointer;
+
+            transition:0.35s;
+        }
+
+        .pay-btn:hover{
+
+            transform:translateY(-4px);
+        }
+
+        .secure{
+
+            margin-top:20px;
+
+            color:#94a3b8;
+
+            font-size:14px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="checkout-box">
+
+        <img src="{% static 'images/Trenzyy_logo.png' %}"
+             class="logo">
+
+        <h1>Secure Checkout 🔒</h1>
+
+        <p>
+
+            Complete your payment securely with Razorpay test mode.
+
+        </p>
+
+        <div class="price">
+
+            ₹{{ total }}
+
+        </div>
+
+        <button id="rzp-button1"
+                class="pay-btn">
+
+            Pay Now
+
+        </button>
+
+        <div class="secure">
+
+            100% Secure Test Payment Gateway
+
+        </div>
+
+    </div>
+
+    <!-- RAZORPAY SCRIPT -->
+
+    <script>
+
+        var options = {
+
+            "key": "{{ razorpay_key }}",
+
+            "amount": "{{ payment.amount }}",
+
+            "currency": "INR",
+
+            "name": "Trenzyy",
+
+            "description": "Premium Shopping",
+
+            "image": "{% static 'images/Trenzyy_logo.png' %}",
+
+            "order_id": "{{ payment.id }}",
+
+            "handler": function (response){
+
+                window.location.href =
+                "/cart/payment-success/?" +
+
+                "razorpay_payment_id=" +
+                response.razorpay_payment_id +
+
+                "&razorpay_order_id=" +
+                response.razorpay_order_id +
+
+                "&razorpay_signature=" +
+                response.razorpay_signature;
+            },
+
+            "modal": {
+
+                "ondismiss": function(){
+
+                    window.location.href = "/cart/";
+                }
+            },
+
+            "theme": {
+
+                "color": "#7c3aed"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        document.getElementById('rzp-button1').onclick = function(e){
+
+            rzp1.open();
+
+            e.preventDefault();
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+.product-details-wrapper{
+
+    width:92%;
+    max-width:1400px;
+
+    margin:60px auto;
+}
+
+.product-details-card{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:45px;
+
+    background:
+    rgba(255,255,255,0.07);
+
+    backdrop-filter:blur(18px);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    border-radius:35px;
+
+    overflow:hidden;
+
+    padding:40px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,0.30);
+}
+
+/* IMAGE */
+
+.product-image-box{
+
+    width:100%;
+
+    height:550px;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:white;
+}
+
+.product-image{
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transition:0.5s;
+}
+
+.product-image:hover{
+
+    transform:scale(1.05);
+}
+
+/* CONTENT */
+
+.product-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+}
+
+.product-badge{
+
+    width:fit-content;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #06b6d4
+    );
+
+    color:white;
+
+    font-size:14px;
+    font-weight:700;
+
+    margin-bottom:24px;
+}
+
+.product-title{
+
+    font-size:58px;
+    font-weight:800;
+
+    color:white;
+
+    line-height:1.1;
+
+    margin-bottom:22px;
+}
+
+.product-desc{
+
+    color:#d1d5db;
+
+    line-height:2;
+
+    font-size:17px;
+
+    margin-bottom:30px;
+}
+
+.price{
+
+    font-size:52px;
+    font-weight:800;
+
+    color:#67e8f9;
+
+    margin-bottom:30px;
+}
+
+/* STOCK */
+
+.stock{
+
+    color:#22c55e;
+
+    font-size:16px;
+    font-weight:700;
+
+    margin-bottom:30px;
+}
+
+.out-stock{
+
+    color:#ef4444;
+
+    font-size:16px;
+    font-weight:700;
+
+    margin-bottom:30px;
+}
+
+/* BUTTONS */
+
+.product-btns{
+
+    display:flex;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+}
+
+.add-cart-btn,
+.back-btn{
+
+    text-decoration:none;
+
+    padding:18px 30px;
+
+    border-radius:18px;
+
+    font-size:15px;
+    font-weight:700;
+
+    transition:0.35s;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+}
+
+.add-cart-btn{
+
+    background:
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #06b6d4
+    );
+
+    color:white;
+
+    box-shadow:
+    0 15px 30px rgba(124,58,237,0.35);
+}
+
+.add-cart-btn:hover{
+
+    transform:
+    translateY(-5px);
+}
+
+.back-btn{
+
+    background:
+    rgba(255,255,255,0.08);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    color:white;
+}
+
+.back-btn:hover{
+
+    transform:
+    translateY(-5px);
+
+    background:
+    rgba(255,255,255,0.14);
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+    .product-details-card{
+
+        grid-template-columns:1fr;
+    }
+
+    .product-image-box{
+
+        height:400px;
+    }
+
+    .product-title{
+
+        font-size:42px;
+    }
+}
+
+@media(max-width:600px){
+
+    .product-title{
+
+        font-size:34px;
+    }
+
+    .price{
+
+        font-size:40px;
+    }
+
+    .product-btns{
+
+        flex-direction:column;
+    }
+}
+
+</style>
+
+<div class="product-details-wrapper">
+
+    <div class="product-details-card">
+
+        <!-- IMAGE -->
+
+        <div class="product-image-box">
+
+            <img src="/static/{{ product.image }}"
+                 class="product-image"
+                 alt="{{ product.name }}">
+
+        </div>
+
+        <!-- CONTENT -->
+
+        <div class="product-content">
+
+            <span class="product-badge">
+
+                Premium Collection
+
+            </span>
+
+            <h1 class="product-title">
+
+                {{ product.name }}
+
+            </h1>
+
+            <p class="product-desc">
+
+                {{ product.desc }}
+
+            </p>
+
+            <div class="price">
+
+                ₹{{ product.price }}
+
+            </div>
+
+            {% if product.is_available %}
+
+            <div class="stock">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                In Stock
+
+            </div>
+
+            {% else %}
+
+            <div class="out-stock">
+
+                <i class="fa-solid fa-circle-xmark"></i>
+
+                Out Of Stock
+
+            </div>
+
+            {% endif %}
+
+            <div class="product-btns">
+
+                <a href="{% url 'cart:add-to-cart' product.id %}"
+                   class="add-cart-btn">
+
+                    <i class="fa-solid fa-cart-plus"></i>
+
+                    Add To Cart
+
+                </a>
+
+                <a href="{% url 'products:products' %}"
+                   class="back-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

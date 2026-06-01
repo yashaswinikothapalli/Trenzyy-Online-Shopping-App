@@ -1,0 +1,472 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+.products-section{
+
+    width:92%;
+    max-width:1400px;
+
+    margin:60px auto 90px auto;
+}
+
+.section-top{
+
+    margin-bottom:45px;
+}
+
+.section-title{
+
+    font-size:52px;
+    font-weight:800;
+
+    color:white;
+
+    margin-bottom:12px;
+}
+
+.section-title span{
+
+    background:
+    linear-gradient(
+        to right,
+        #c084fc,
+        #67e8f9,
+        #22c55e
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.section-subtitle{
+
+    color:#cbd5e1;
+
+    font-size:17px;
+
+    line-height:1.8;
+}
+
+/* GRID */
+
+.products-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+    gap:35px;
+}
+
+/* CARD */
+
+.product-card{
+
+    background:
+    rgba(17,28,45,0.62);
+
+    backdrop-filter:blur(18px);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    border-radius:32px;
+
+    overflow:hidden;
+
+    transition:0.4s;
+
+    position:relative;
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,0.30);
+}
+
+.product-card:hover{
+
+    transform:
+    translateY(-10px);
+
+    border-color:
+    rgba(103,232,249,0.35);
+
+    box-shadow:
+    0 30px 55px rgba(0,0,0,0.40);
+}
+
+/* IMAGE */
+
+.product-image-wrapper{
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.product-image{
+
+    width:100%;
+    height:320px;
+
+    object-fit:cover;
+
+    background:white;
+
+    transition:0.5s;
+}
+
+.product-card:hover .product-image{
+
+    transform:scale(1.08);
+}
+
+/* BADGE */
+
+.premium-tag{
+
+    position:absolute;
+
+    top:18px;
+    left:18px;
+
+    padding:9px 16px;
+
+    border-radius:50px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #f59e0b,
+        #facc15
+    );
+
+    color:black;
+
+    font-size:13px;
+    font-weight:700;
+
+    z-index:10;
+}
+
+/* CONTENT */
+
+.product-content{
+
+    padding:28px;
+}
+
+.product-category{
+
+    display:inline-block;
+
+    padding:8px 16px;
+
+    border-radius:50px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    color:#dbeafe;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+}
+
+.product-title{
+
+    font-size:30px;
+    font-weight:700;
+
+    color:white;
+
+    margin-bottom:14px;
+}
+
+.product-desc{
+
+    color:#cbd5e1;
+
+    line-height:1.8;
+
+    margin-bottom:22px;
+}
+
+/* PRICE */
+
+.price-row{
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:28px;
+}
+
+.price{
+
+    font-size:34px;
+    font-weight:800;
+
+    color:#67e8f9;
+}
+
+/* STOCK */
+
+.stock-badge{
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    background:
+    rgba(34,197,94,0.18);
+
+    color:#22c55e;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+.out-stock-badge{
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    background:
+    rgba(239,68,68,0.18);
+
+    color:#ef4444;
+
+    font-size:13px;
+    font-weight:700;
+}
+
+/* BUTTONS */
+
+.card-btns{
+
+    display:flex;
+
+    gap:14px;
+}
+
+.view-btn,
+.add-cart-btn{
+
+    flex:1;
+
+    text-decoration:none;
+
+    text-align:center;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    font-size:14px;
+    font-weight:700;
+
+    transition:0.35s;
+}
+
+.view-btn{
+
+    background:
+    rgba(255,255,255,0.08);
+
+    border:
+    1px solid rgba(255,255,255,0.08);
+
+    color:white;
+}
+
+.view-btn:hover{
+
+    transform:
+    translateY(-4px);
+
+    background:
+    rgba(255,255,255,0.14);
+}
+
+.add-cart-btn{
+
+    background:
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #06b6d4
+    );
+
+    color:white;
+
+    box-shadow:
+    0 12px 25px rgba(124,58,237,0.35);
+}
+
+.add-cart-btn:hover{
+
+    transform:
+    translateY(-4px);
+
+    box-shadow:
+    0 18px 35px rgba(124,58,237,0.45);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .section-title{
+
+        font-size:38px;
+    }
+
+    .card-btns{
+
+        flex-direction:column;
+    }
+
+    .product-image{
+
+        height:260px;
+    }
+}
+
+</style>
+
+<section class="products-section">
+
+    <div class="section-top">
+
+        <h1 class="section-title">
+
+            Explore <span>Products</span> 🛍️
+
+        </h1>
+
+        <p class="section-subtitle">
+
+            Discover premium collections crafted for modern lifestyles.
+
+        </p>
+
+    </div>
+
+    <div class="products-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <div class="product-image-wrapper">
+
+                <span class="premium-tag">
+
+                    Premium
+
+                </span>
+
+                <img src="/static/{{ product.image }}"
+                     class="product-image"
+                     alt="{{ product.name }}">
+
+            </div>
+
+            <div class="product-content">
+
+                <span class="product-category">
+
+                    {{ product.category.name }}
+
+                </span>
+
+                <h2 class="product-title">
+
+                    {{ product.name }}
+
+                </h2>
+
+                <p class="product-desc">
+
+                    {{ product.desc|truncatewords:18 }}
+
+                </p>
+
+                <div class="price-row">
+
+                    <div class="price">
+
+                        ₹{{ product.price }}
+
+                    </div>
+
+                    {% if product.is_available %}
+
+                    <span class="stock-badge">
+
+                        In Stock
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="out-stock-badge">
+
+                        Out Of Stock
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="card-btns">
+
+                    <a href="{% url 'products:product-details' product.id %}"
+                       class="view-btn">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        View Details
+
+                    </a>
+
+                    <a href="{% url 'cart:add-to-cart' product.id %}"
+                       class="add-cart-btn">
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Add To Cart
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <h2 style="color:white;">
+
+            No Products Available
+
+        </h2>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <h1>
+
+            Shop The
+            <span>Future</span>
+            Of Premium Fashion ✨
+
+        </h1>
+
+        <p>
+
+            Discover luxury products, trending collections,
+            premium gadgets, fashion essentials and modern
+            shopping experiences with Trenzyy.
+
+        </p>
+
+        <div class="hero-btns">
+
+            <a href="{% url 'products:products' %}"
+               class="hero-btn shop-btn">
+
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                Shop Now
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- HERO IMAGE -->
+
+    <div class="hero-image-box">
+
+        <div class="hero-glow"></div>
+
+        <div class="hero-circle"></div>
+
+        <div class="hero-image-card">
+
+            <img src="{% static 'images/hero1.png' %}"
+                 class="hero-image">
+
+        </div>
+
+    </div>
+
+</section>
+<!-- TRENDING PRODUCTS -->
+
+<section class="products-section">
+
+    <div class="section-top">
+
+        <div>
+
+            <h1 class="section-title">
+
+                Trending <span>Products</span> 🔥
+
+            </h1>
+
+            <p class="section-subtitle">
+
+                Handpicked premium products for you.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="products-grid">
+
+        {% for product in trending_products %}
+
+        <div class="product-card">
+
+            <div class="product-image-wrapper">
+
+                <span class="premium-tag">
+
+                    Trending
+
+                </span>
+
+                <img src="{% static product.image %}"
+                     class="product-image"
+                     alt="{{ product.name }}">
+
+            </div>
+
+            <div class="product-content">
+
+                <span class="product-category">
+
+                    {{ product.category.name }}
+
+                </span>
+
+                <h2 class="product-title">
+
+                    {{ product.name }}
+
+                </h2>
+
+                <p class="product-desc">
+
+                    {{ product.desc|truncatewords:15 }}
+
+                </p>
+
+                <div class="price">
+
+                    ₹{{ product.price }}
+
+                </div>
+
+                <div class="card-btns">
+
+                    <a href="{% url 'products:product-details' product.id %}"
+                       class="view-btn">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        View Details
+
+                    </a>
+
+                    <a href="{% url 'cart:add-to-cart' product.id %}"
+                       class="add-cart-btn">
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Add To Cart
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- VIEW ALL BUTTON -->
+
+    <div style="text-align:center; margin-top:50px;">
+
+        <a href="{% url 'products:products' %}"
+           class="hero-btn shop-btn">
+
+            View All Products
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="products-section">
+
+    <div class="section-top">
+
+        <div>
+
+            <h1 class="section-title">
+
+                Search Results For
+                <span>"{{ query }}"</span>
+
+            </h1>
+
+            <p class="section-subtitle">
+
+                Find your favorite premium products instantly.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="products-grid">
+
+        {% for product in products %}
+
+        <div class="product-card">
+
+            <div class="product-image-wrapper">
+
+                <span class="premium-tag">
+
+                    Premium
+
+                </span>
+
+                <img src="{% static product.image %}"
+                     class="product-image"
+                     alt="{{ product.name }}">
+
+            </div>
+
+            <div class="product-content">
+
+                <span class="product-category">
+
+                    {{ product.category.name }}
+
+                </span>
+
+                <h2 class="product-title">
+
+                    {{ product.name }}
+
+                </h2>
+
+                <p class="product-desc">
+
+                    {{ product.desc|truncatewords:18 }}
+
+                </p>
+
+                <div class="price-row">
+
+                    <div class="price">
+
+                        ₹{{ product.price }}
+
+                    </div>
+
+                </div>
+
+                <div class="card-btns">
+
+                    <a href="{% url 'products:product-details' product.id %}"
+                       class="view-btn">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        View Details
+
+                    </a>
+
+                    <a href="{% url 'cart:add-to-cart' product.id %}"
+                       class="add-cart-btn">
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Add To Cart
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-products">
+
+            <h2>No Products Found 😔</h2>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
