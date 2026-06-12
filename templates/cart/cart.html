@@ -888,64 +888,47 @@
             </div>
 
             <!-- SUMMARY -->
-
             <div class="summary-card">
 
-                <h2>Order Summary</h2>
+    <h2>Order Summary</h2>
 
-                <div class="summary-row">
+    <div class="summary-row">
+        <span>Total Products</span>
+        <span>{{ cart_items|length }}</span>
+    </div>
 
-                    <span>Total Products</span>
+    <div class="summary-row">
+        <span>Total Quantity</span>
+        <span>{{ cart_count }}</span>
+    </div>
 
-                    <span>{{ cart_items|length }}</span>
+    <div class="summary-row">
+        <span>Cart Value</span>
+        <span>₹{{ total_price }}</span>
+    </div>
 
-                </div>
+    <div class="summary-total">
+        ₹{{ total_price }}
+    </div>
 
-                <div class="summary-row">
+    <a href="{% url 'cart:checkout' %}"
+       class="checkout-btn">
 
-                    <span>Delivery</span>
+        <i class="fa-solid fa-credit-card"></i>
 
-                    <span>Free</span>
+        Proceed To Checkout
 
-                </div>
+    </a>
 
-                <div class="summary-row">
+    <div class="secure-text">
 
-                    <span>Platform Fee</span>
+        <i class="fa-solid fa-shield-halved"></i>
 
-                    <span>₹49</span>
+        Charges, discounts & delivery details will be shown at checkout
 
-                </div>
+    </div>
 
-                <div class="summary-row">
-
-                    <span>Discount</span>
-
-                    <span style="color:#22c55e;">
-                        - ₹199
-                    </span>
-
-                </div>
-
-                <div class="summary-total">
-
-                    ₹{{ total_price }}
-
-                </div>
-<a href="{% url 'cart:checkout' %}" class="checkout-btn">
-    <i class="fa-solid fa-credit-card"></i>
-    Proceed To Checkout
-</a>
-              
-                <div class="secure-text">
-
-                    <i class="fa-solid fa-shield-halved"></i>
-
-                    100% Secure Payments
-
-                </div>
-
-            </div>
+</div>
 
         </div>
 

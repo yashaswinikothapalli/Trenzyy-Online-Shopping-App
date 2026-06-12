@@ -18,7 +18,6 @@ from django.views.decorators.csrf import csrf_exempt
 # =========================================
 # CART PAGE
 # =========================================
-
 def cart_view(request):
 
     cart_items = Cart.objects.all()
@@ -36,11 +35,8 @@ def cart_view(request):
     context = {
 
         'cart_items': cart_items,
-
         'total_price': total_price,
-
         'cart_count': cart_count,
-
     }
 
     return render(
@@ -140,20 +136,38 @@ def decrease_quantity(request, cart_id):
 # =========================================
 # CHECKOUT PAGE
 # =========================================
-
 def checkout(request):
 
     cart_items = Cart.objects.all()
 
-    total = 0
+    # =========================
+    # CALCULATIONS
+    # =========================
 
-    for item in cart_items:
+    subtotal = sum(
+        item.product.price * item.quantity
+        for item in cart_items
+    )
 
-        total += item.product.price * item.quantity
+    platform_fee = 49
 
-    total += 49
+    discount = 199
 
-    # CREATE RAZORPAY CLIENT
+    delivery_charge = 0
+
+    grand_total = (
+        subtotal
+        + platform_fee
+        + delivery_charge
+        - discount
+    )
+
+    if grand_total < 0:
+        grand_total = 0
+
+    # =========================
+    # RAZORPAY CLIENT
+    # =========================
 
     client = razorpay.Client(
         auth=(
@@ -164,14 +178,16 @@ def checkout(request):
 
     payment = client.order.create({
 
-        "amount": int(total * 100),
+        "amount": int(grand_total * 100),
 
         "currency": "INR",
 
         "payment_capture": "1"
     })
 
+    # =========================
     # CREATE ORDER
+    # =========================
 
     order = Order.objects.create(
 
@@ -181,12 +197,14 @@ def checkout(request):
 
         phone="9876543210",
 
-        total_price=total,
+        total_price=grand_total,
 
         razorpay_order_id=payment['id']
     )
 
+    # =========================
     # CREATE ORDER ITEMS
+    # =========================
 
     for item in cart_items:
 
@@ -201,6 +219,10 @@ def checkout(request):
             price=item.product.price
         )
 
+    # =========================
+    # CONTEXT
+    # =========================
+
     context = {
 
         'payment': payment,
@@ -209,7 +231,17 @@ def checkout(request):
 
         'cart_items': cart_items,
 
-        'total': total,
+        'subtotal': subtotal,
+
+        'platform_fee': platform_fee,
+
+        'delivery_charge': delivery_charge,
+
+        'discount': discount,
+
+        'total': grand_total,
+
+        'grand_total': grand_total,
 
         'razorpay_key': settings.RAZORPAY_KEY_ID,
     }
@@ -219,6 +251,7 @@ def checkout(request):
         'cart/checkout.html',
         context
     )
+
 
 
 # =========================================

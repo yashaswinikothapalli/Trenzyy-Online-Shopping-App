@@ -114,7 +114,8 @@ def category_products(request, id):
     )
 
     products = Products.objects.filter(
-        category=category
+        category=category,
+         is_available=True
     )
 
     categories = Category.objects.all()
@@ -150,7 +151,8 @@ def search_products(request):
 
         Q(name__icontains=query) |
 
-        Q(desc__icontains=query)
+        Q(desc__icontains=query) |
+         Q(category__name__icontains=query)
 
     )
 
